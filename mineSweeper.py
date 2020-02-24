@@ -1,5 +1,6 @@
 import pygame
 import random
+import sys
 from user_input import UserInput
 from board import Board
 
@@ -101,7 +102,36 @@ from board import Board
 #     return indices
 
 
-def play_game():
+def apply_move(hid_board,board ,next_move):
+    if hid_board[next_move[0]][next_move[1]] == "*":
+        print ("-----YOU LOSE------")
+        sys.exit()
+    elif hid_board[next_move[0]][next_move[1]] == "-":
+        print("Apply the move")
+
+        # get the adj cells locations
+        adj_cells = my_board.get_adj(hid_board, board, next_move)
+        print(adj_cells)
+        print("\n")
+        bombs_number = adj_bombs(hid_board, board,next_move)
+        board[next_move[0]][next_move[1]] = bombs_number
+        # Put a number:
+    else:
+        print("You picked a cell that has already been picked, choose another one")
+
+
+def adj_bombs(hid_board, board, next_move):
+    adj_cells = my_board.get_adj(hid_board, board, next_move)
+    bombs_number = 0
+    while bombs_number == 0:
+        for i in adj_cells:
+            if hid_board[i[0]][i[1]] == "*":
+                bombs_number += 1
+    return bombs_number
+
+
+
+def start_game():
     # Class input:
     # rows_num = int(input("Enter the number of rows: "))
     # columns_num = int(input("Enter the number of columns: "))
@@ -112,26 +142,29 @@ def play_game():
     board = my_board.create_board(dimensions[1], dimensions[0])
     # making the hidden board
     hid_board = my_board.copy_board(board)
-    # print the boards
-    my_board.print_board(board)
-
     # get bombs locations and place them then print the hidden board just for testing
     b_l = my_board.get_bombs_locations(dimensions[1], dimensions[0])
     my_board.place_bombs(hid_board, b_l)
+    playing = True
+    while playing:
+        play_game(hid_board, board)
+
+
+def play_game(hid_board, board):
+    # print the boards
+    my_board.print_board(board)
     my_board.print_board(hid_board)
 
     # player's move
     next_move = u_inp.next_move()
     print(next_move)
 
-    # get the adj cells locations
-    adj_cells = my_board.get_adj(hid_board, board, next_move)
-    print(adj_cells)
+    # apply the move whether it is available or not
+    apply_move(hid_board, board, next_move)
 
 
 u_inp = UserInput()
 my_board = Board()
-
-play_game()
+start_game()
 
 

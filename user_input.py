@@ -24,4 +24,3 @@ class UserInput:
         u_in = [int(row_in) - 1, int(col_in) - 1]
         return u_in
 
-
