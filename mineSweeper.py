@@ -1,6 +1,6 @@
 import pygame
 import random
-
+from user_input import UserInput
 # making a board
 def create_board(columns_num, rows_num):
     board = []
@@ -71,12 +71,12 @@ def place_bombs(board_to_place, bombs_locations):
 
 
 # Input of next move
-def user_in():
-    row_in = int(input("\n\n~~~~Enter row index~~~~\n"))
-    col_in = int(input("~~~~Enter column index~~~~\n"))
-    print("\n\n")
-    u_in = [row_in-1, col_in-1]
-    return u_in
+# def user_in():
+#     row_in = int(input("\n\n~~~~Enter row index~~~~\n"))
+#     col_in = int(input("~~~~Enter column index~~~~\n"))
+#     print("\n\n")
+#     u_in = [row_in-1, col_in-1]
+#     return u_in
 
 
 # get the indices of adj cells
@@ -99,11 +99,12 @@ def get_adj(hid_board, board, next_move):
 
 def play_game():
     # Class input:
-    columns_num = int(input("Enter the number of columns: "))
-    rows_num = int(input("Enter the number of rows: "))
+    # rows_num = int(input("Enter the number of rows: "))
+    # columns_num = int(input("Enter the number of columns: "))
+    dimensions = u_inp.dimensions()
 
     # making the board
-    board = create_board(columns_num, rows_num)
+    board = create_board(dimensions[1], dimensions[0])
     # making the hidden board
     hid_board = copy_board(board)
     # print the boards
@@ -112,16 +113,17 @@ def play_game():
 
     # get bombs locations
     # get_bombs_locations(columns_num, rows_num)
-    place_bombs(hid_board, get_bombs_locations(columns_num, rows_num))
+    place_bombs(hid_board, get_bombs_locations(dimensions[1], dimensions[0]))
     print_board(hid_board)
 
-    next_move = user_in()
+    next_move = u_inp.next_move()
     print(next_move)
 
     adj_cells = get_adj(hid_board, board, next_move)
     print(adj_cells)
 
 
+u_inp = UserInput()
 play_game()
 
 
