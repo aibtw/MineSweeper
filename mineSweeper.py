@@ -130,6 +130,12 @@ def adj_bombs(hid_board, board, next_move):
     return bombs_number
 
 
+def repeater(hid_board, board, adj_cells):
+    for i in adj_cells:
+        next_move = [i[0], i[1]]
+        bombs_number = adj_bombs(hid_board, board, next_move)
+        return bombs_number
+
 
 def start_game():
     # Class input:
