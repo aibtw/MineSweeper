@@ -1,4 +1,6 @@
 import random
+
+
 class Board:
     # making a board
     def create_board(self, columns_num, rows_num):
@@ -54,11 +56,11 @@ class Board:
                 indices.append([row_index, col_index])
         return indices
 
-    def get_bombs_locations(self,columns_num, rows_num):
+    def get_bombs_locations(self, rows_num, columns_num):
         b_locations = []
         while len(b_locations) < 10:
-            i = random.randint(0, 7)
-            j = random.randint(0, 7)
+            i = random.randint(0, rows_num-1)
+            j = random.randint(0, columns_num-1)
 
             temp = [i, j]
             if b_locations:

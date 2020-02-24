@@ -115,6 +115,7 @@ def apply_move(hid_board,board ,next_move):
         print("\n")
         bombs_number = adj_bombs(hid_board, board,next_move)
         board[next_move[0]][next_move[1]] = bombs_number
+        hid_board[next_move[0]][next_move[1]] = bombs_number
         # Put a number:
     else:
         print("You picked a cell that has already been picked, choose another one")
@@ -123,10 +124,9 @@ def apply_move(hid_board,board ,next_move):
 def adj_bombs(hid_board, board, next_move):
     adj_cells = my_board.get_adj(hid_board, board, next_move)
     bombs_number = 0
-    while bombs_number == 0:
-        for i in adj_cells:
-            if hid_board[i[0]][i[1]] == "*":
-                bombs_number += 1
+    for i in adj_cells:
+        if hid_board[i[0]][i[1]] == "*":
+            bombs_number += 1
     return bombs_number
 
 
@@ -143,7 +143,7 @@ def start_game():
     # making the hidden board
     hid_board = my_board.copy_board(board)
     # get bombs locations and place them then print the hidden board just for testing
-    b_l = my_board.get_bombs_locations(dimensions[1], dimensions[0])
+    b_l = my_board.get_bombs_locations(dimensions[0], dimensions[1])
     my_board.place_bombs(hid_board, b_l)
     playing = True
     while playing:
@@ -161,6 +161,14 @@ def play_game(hid_board, board):
 
     # apply the move whether it is available or not
     apply_move(hid_board, board, next_move)
+    k=0
+    for i in hid_board:
+        for j in i:
+            if j != "-":
+                k += 1
+    if k == len(hid_board) * len(hid_board[0]):
+        print("\n\n\n\n\n\n\n----YOU WIN ----\n\n\n\n\n\n\n")
+        sys.exit()
 
 
 u_inp = UserInput()
