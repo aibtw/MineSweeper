@@ -60,6 +60,7 @@ def get_bombs_locations(columns_num, rows_num):
     return b_locations
     # print(b_locations)
 
+
 # place the bombs in their places in the giver board
 def place_bombs(board_to_place, bombs_locations):
     for i in range(len(bombs_locations)):
@@ -74,13 +75,31 @@ def user_in():
     row_in = int(input("\n\n~~~~Enter row index~~~~\n"))
     col_in = int(input("~~~~Enter column index~~~~\n"))
     print("\n\n")
-    u_in = [row_in, col_in]
+    u_in = [row_in-1, col_in-1]
     return u_in
 
 
 # applying next move
 def press(hid_board, board, next_move):
-    print("")
+    row = next_move[0]
+    col = next_move[1]
+
+    adj_bombs = 0
+    top_cells = [hid_board[row - 1][col - 1], hid_board[row - 1][col], hid_board[row - 1][col + 1]]
+    bot_cells = [hid_board[row + 1][col - 1], hid_board[row + 1][col], hid_board[row + 1][col + 1]]
+    side_cells = [hid_board[row][col - 1], hid_board[row][col + 1]]
+    adj_cells = [top_cells, bot_cells, side_cells]
+
+    if hid_board[row][col] == "*":
+        print("\n\n\n\n -------- YOU LOSE --------")
+    else:
+        for i in adj_cells:
+            for j in i:
+                if j == "*":
+                    adj_bombs += 1
+
+    print (adj_bombs)
+    print (adj_cells)
 
 
 # Class input:
@@ -103,3 +122,5 @@ print_board(hid_board)
 
 next_move = user_in()
 print(next_move)
+
+press(hid_board, board, next_move)
