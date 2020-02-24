@@ -1,19 +1,27 @@
+import sys
 class UserInput:
 
     def __init__(self):
         pass
 
     def dimensions(self):
-        rows_num = int(input("Enter the number of rows: "))
-        columns_num = int(input("Enter the number of columns: "))
-
-        return [rows_num,columns_num]
+        rows_num = input("Enter the number of rows: ")
+        if rows_num == "q":
+            sys.exit()
+        columns_num = input("Enter the number of columns: ")
+        if columns_num == "q":
+            sys.exit()
+        return [int(rows_num), int(columns_num)]
 
     def next_move(self):
-        row_in = int(input("\n\n~~~~Enter row index~~~~\n"))
-        col_in = int(input("~~~~Enter column index~~~~\n"))
+        row_in = input("\n\n~~~~Enter row index~~~~\n")
+        if row_in == "q":
+            sys.exit()
+        col_in = input("~~~~Enter column index~~~~\n")
+        if col_in == "q":
+            sys.exit()
         print("\n\n")
-        u_in = [row_in - 1, col_in - 1]
+        u_in = [int(row_in) - 1, int(col_in) - 1]
         return u_in
 
 

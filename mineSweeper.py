@@ -46,31 +46,31 @@ from board import Board
 
 
 # Get random numbers and store them as pair of x,y in a list, as bombs locations
-def get_bombs_locations(columns_num, rows_num):
-    b_locations = []
-    while len(b_locations) < 10:
-        i = random.randint(0, 7)
-        j = random.randint(0, 7)
-
-        temp = [i, j]
-        if b_locations:
-            if temp not in b_locations:
-                b_locations.append(temp)
-            else:
-                continue
-        else:
-            b_locations.append(temp)
-    return b_locations
-    # print(b_locations)
-
-
-# place the bombs in their places in the giver board
-def place_bombs(board_to_place, bombs_locations):
-    for i in range(len(bombs_locations)):
-        temp_row = bombs_locations[i][0]
-        temp_col = bombs_locations[i][1]
-
-        board_to_place[temp_row][temp_col] = "*"
+# def get_bombs_locations(columns_num, rows_num):
+#     b_locations = []
+#     while len(b_locations) < 10:
+#         i = random.randint(0, 7)
+#         j = random.randint(0, 7)
+#
+#         temp = [i, j]
+#         if b_locations:
+#             if temp not in b_locations:
+#                 b_locations.append(temp)
+#             else:
+#                 continue
+#         else:
+#             b_locations.append(temp)
+#     return b_locations
+#     # print(b_locations)
+#
+#
+# # place the bombs in their places in the giver board
+# def place_bombs(board_to_place, bombs_locations):
+#     for i in range(len(bombs_locations)):
+#         temp_row = bombs_locations[i][0]
+#         temp_col = bombs_locations[i][1]
+#
+#         board_to_place[temp_row][temp_col] = "*"
 
 
 # Input of next move
@@ -115,8 +115,9 @@ def play_game():
     # print the boards
     my_board.print_board(board)
 
-    # get_bombs_locations(columns_num, rows_num)
-    place_bombs(hid_board, get_bombs_locations(dimensions[1], dimensions[0]))
+    # get bombs locations and place them then print the hidden board just for testing
+    b_l = my_board.get_bombs_locations(dimensions[1], dimensions[0])
+    my_board.place_bombs(hid_board, b_l)
     my_board.print_board(hid_board)
 
     # player's move

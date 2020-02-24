@@ -1,3 +1,4 @@
+import random
 class Board:
     # making a board
     def create_board(self, columns_num, rows_num):
@@ -52,3 +53,28 @@ class Board:
                     continue
                 indices.append([row_index, col_index])
         return indices
+
+    def get_bombs_locations(self,columns_num, rows_num):
+        b_locations = []
+        while len(b_locations) < 10:
+            i = random.randint(0, 7)
+            j = random.randint(0, 7)
+
+            temp = [i, j]
+            if b_locations:
+                if temp not in b_locations:
+                    b_locations.append(temp)
+                else:
+                    continue
+            else:
+                b_locations.append(temp)
+        return b_locations
+        # print(b_locations)
+
+    # place the bombs in their places in the giver board
+    def place_bombs(self,board_to_place, bombs_locations):
+        for i in range(len(bombs_locations)):
+            temp_row = bombs_locations[i][0]
+            temp_col = bombs_locations[i][1]
+
+            board_to_place[temp_row][temp_col] = "*"
