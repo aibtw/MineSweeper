@@ -1,45 +1,48 @@
 import pygame
 import random
 from user_input import UserInput
-# making a board
-def create_board(columns_num, rows_num):
-    board = []
-    for i in range(rows_num):
-        board.append([])
-        for j in range(columns_num):
-            board[i].append("-")
-    return board
+from board import Board
 
 
-# copying the board to make the hidden version
-def copy_board(board):
-    hid_board = []
-    for i in board:
-        temp = []
-        for j in i:
-            temp.append(j)
-        hid_board.append(temp)
-    return hid_board
+# # making a board
+# def create_board(columns_num, rows_num):
+#     board = []
+#     for i in range(rows_num):
+#         board.append([])
+#         for j in range(columns_num):
+#             board[i].append("-")
+#     return board
 
 
-# printing boards
-def print_board(to_print):
-    # print upper numbers
-    print("\t", end=":")
-    for i in range(1,len(to_print[0])+1):
-        print(str(i), end="\t ")
-    print("\n")
+# # copying the board to make the hidden version
+# def copy_board(board):
+#     hid_board = []
+#     for i in board:
+#         temp = []
+#         for j in i:
+#             temp.append(j)
+#         hid_board.append(temp)
+#     return hid_board
 
-    # print side numbers
-    for i in range(0,len(to_print)):
-        if i+1 < 10:
-            print(str(i+1) + ":", end="\t")
-        else:
-            print(str(i + 1) + ":", end="\t")
-            # print the content of the board
-        for j in to_print[i]:
-            print(j, end ="\t")
-        print("\n")
+
+# # printing boards
+# def print_board(to_print):
+#     # print upper numbers
+#     print("\t", end=":")
+#     for i in range(1,len(to_print[0])+1):
+#         print(str(i), end="\t ")
+#     print("\n")
+#
+#     # print side numbers
+#     for i in range(0,len(to_print)):
+#         if i+1 < 10:
+#             print(str(i+1) + ":", end="\t")
+#         else:
+#             print(str(i + 1) + ":", end="\t")
+#             # print the content of the board
+#         for j in to_print[i]:
+#             print(j, end ="\t")
+#         print("\n")
 
 
 # Get random numbers and store them as pair of x,y in a list, as bombs locations
@@ -80,50 +83,54 @@ def place_bombs(board_to_place, bombs_locations):
 
 
 # get the indices of adj cells
-def get_adj(hid_board, board, next_move):
-    row = next_move[0]
-    col = next_move[1]
-    indices = []
-    inc = [-1, 0, 1]
-
-    for i in inc:
-        for j in inc:
-            row_index = row + i
-            col_index = col + j
-            if (row_index < 0) or (row_index >= len(hid_board)) \
-                    or (col_index < 0) or (col_index >= len(hid_board[0])) or (i == 0 and j == 0):
-                continue
-            indices.append([row_index, col_index])
-    return indices
+# # get the adj cells of any given cell
+# def get_adj(hid_board, board, next_move):
+#     row = next_move[0]
+#     col = next_move[1]
+#     indices = []
+#     inc = [-1, 0, 1]
+#
+#     for i in inc:
+#         for j in inc:
+#             row_index = row + i
+#             col_index = col + j
+#             if (row_index < 0) or (row_index >= len(hid_board)) \
+#                     or (col_index < 0) or (col_index >= len(hid_board[0])) or (i == 0 and j == 0):
+#                 continue
+#             indices.append([row_index, col_index])
+#     return indices
 
 
 def play_game():
     # Class input:
     # rows_num = int(input("Enter the number of rows: "))
     # columns_num = int(input("Enter the number of columns: "))
+    # get the dimensions of the board
     dimensions = u_inp.dimensions()
 
     # making the board
-    board = create_board(dimensions[1], dimensions[0])
+    board = my_board.create_board(dimensions[1], dimensions[0])
     # making the hidden board
-    hid_board = copy_board(board)
+    hid_board = my_board.copy_board(board)
     # print the boards
-    print_board(board)
-    # print_board(hid_board)
+    my_board.print_board(board)
 
-    # get bombs locations
     # get_bombs_locations(columns_num, rows_num)
     place_bombs(hid_board, get_bombs_locations(dimensions[1], dimensions[0]))
-    print_board(hid_board)
+    my_board.print_board(hid_board)
 
+    # player's move
     next_move = u_inp.next_move()
     print(next_move)
 
-    adj_cells = get_adj(hid_board, board, next_move)
+    # get the adj cells locations
+    adj_cells = my_board.get_adj(hid_board, board, next_move)
     print(adj_cells)
 
 
 u_inp = UserInput()
+my_board = Board()
+
 play_game()
 
 
